@@ -1,12 +1,11 @@
 const express = require("express");
 const path = require('path'); //a node native module
-const {Restaurant, Menu, Item} = require('./models/index');
+const {Restaurant, Menu, Item} = require('./models/index.js');
 
 const app = express();
 const port = 3000;
 
-//Q: What does express.static help us do?
-//Q: What do you think path.join helps us do?
+
 app.use(express.static(path.join(__dirname, 'public')))
 app.get('/', (req, res) => {
     res.send('hello world')
@@ -87,6 +86,11 @@ app.delete('/Item/:id', async(req,res) => {
   res.send("Deleted Item")
 })
 
+//post restuarnats
+app.post('/restaurants', async (req, res) => {
+  let newRestaurant = await Restaurant.create(req.body)
+  res.status(200).send('New Restaurant Created !')
+} )
 
 //Update an Item Name
 
@@ -98,7 +102,7 @@ app.put("/Item/:id", async (req, res) => {
 
 })
 
-//Q: What will our server be doing?
+// listen
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
 });
